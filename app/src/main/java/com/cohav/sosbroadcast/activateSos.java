@@ -7,8 +7,12 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.audiofx.BassBoost;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.view.View;
@@ -23,13 +27,6 @@ import java.util.List;
 
 public class activateSos extends AppCompatActivity {
     private List<Contact> contactList;
-    private SharedPreferences userData;
-    private SharedPreferences.Editor editor;
-    private TypeToken<ArrayList<Contact>> token = new TypeToken<ArrayList<Contact>>() {
-    };
-    private Gson gson;
-    private String phoneNumber = "0528726439";
-    private String msgText = "Hey Mor";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,16 +34,25 @@ public class activateSos extends AppCompatActivity {
         setContentView(R.layout.sos_send);
 
         //start here
+        Intent i =getIntent();
+        contactList = (ArrayList<Contact>) i.getSerializableExtra("CONTACT_LIST");
         final ImageButton myBtn = (ImageButton) findViewById(R.id.ActivateBtn);
         myBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //contactList = gson.fromJson(userData.getString("contactList",""),token.getType());
-                Intent gpsStat = new Intent("android.location.GPS_ENABLE_CHANGE");
-                gpsStat.putExtra("enabled",true);
-                sendBroadcast(gpsStat);
-                //send sms
-                //SendSOSbroadCast(contactList);
+                LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
+                if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                    Intent gpsOptionsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(gpsOptionsIntent);
+                }
+                else{
+                    //show message that gps is enabled.
+                    ConstraintLayout constraintLayout = (ConstraintLayout)findViewById(R.id.constraintLayout);
+                    Snackbar snackbar = Snackbar.make(constraintLayout,"GPS is already enabled!",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+                ScanArrayList();
+
             }
         });
 
@@ -57,7 +63,7 @@ public class activateSos extends AppCompatActivity {
 
     }
 
-    public void SendSOSbroadCast(List contactList) {
+    public void SendSOSbroadCast(String phoneNumber,String msgText) {
         SmsManager smsManager = SmsManager.getDefault();
         try {
             smsManager.sendTextMessage(phoneNumber,null,msgText,null,null);
@@ -67,5 +73,10 @@ public class activateSos extends AppCompatActivity {
 
         }
 
+    }
+    public void ScanArrayList(){
+        for (int i = 0; i<contactList.size();i++){
+            SendSOSbroadCast(contactList.get(i).getNumber(),"Hey "+contactList.get(i).getName());
+        }
     }
 }

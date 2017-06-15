@@ -7,13 +7,15 @@
     tools:context="com.cohav.sosbroadcast.MainActivity"
     android:animateLayoutChanges="true">
 
-    <include layout="@layout/content_main"
-        tools:layout_editor_absoluteX="0dp"
-        android:id="@+id/include"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_height="0dp"
-        android:layout_width="0dp"></include>
 
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_main"
+        android:layout_width="319dp"
+        android:layout_height="453dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"></include>
 
     <ImageButton
         android:id="@+id/addContact"

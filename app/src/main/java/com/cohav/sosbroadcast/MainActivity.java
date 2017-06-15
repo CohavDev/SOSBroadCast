@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.FileOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
                // myAdapter.Clear();
                 //myAdapter.notifyDataSetChanged();
                 Intent intent = new Intent(MainActivity.this,activateSos.class);
+                intent.putExtra("CONTACT_LIST",(Serializable) GetRefList());
                 startActivity(intent);
                 finish();
             }
