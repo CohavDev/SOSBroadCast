@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.preference.Preference;
 import android.provider.ContactsContract;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -26,7 +28,6 @@ import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewClickListener {
 
@@ -59,34 +60,16 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         myBtn2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-              //  userData = getPreferences(MODE_PRIVATE);
-              //  editor = userData.edit();
-              //  editor.clear();
-             //   editor.commit();
-              //  contactList = null;
-               // myAdapter.Clear();
-                //myAdapter.notifyDataSetChanged();
                 Intent intent = new Intent(MainActivity.this,activateSos.class);
-                intent.putExtra("CONTACT_LIST",(Serializable) GetRefList());
                 startActivity(intent);
                 finish();
             }
         });
-        //settings
-        //final ImageButton myButton2 = (ImageButton) findViewById(R.id.settingsButton);
-        //myButton.setOnClickListener(new View.OnClickListener() {
-            //@Override
-            //public void onClick(View v) {
-                //Intent intent = new Intent(this,activateSos.class);
-                //startActivity(intent);
-          //  }
-        //});
-        //initialize
+
         userData = getPreferences(MODE_PRIVATE);
         editor = userData.edit();
         gson = new Gson();
-       //editor.clear();
-       // editor.commit();
+
         if(userData.contains("contactList")) {
             contactList = GetRefList();
         }
@@ -117,20 +100,36 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     //show & add contact
     public void AddContactToList(String name, String number) {
         contactList = GetRefList();
-        Contact c1 = new Contact(name,number);
+        Contact c1 = new Contact(number,name);
         String objectString;
         if(contactList==null){
             contactList = new ArrayList<>();
         }
-        contactList.add(c1);
-        objectString = gson.toJson(contactList);
-        editor.putString("contactList",objectString);
-        editor.commit();
-        myAdapter.addItemsToList(c1);
-        myAdapter.notifyDataSetChanged();
+        if(!IsExist(c1)){
+            contactList.add(c1);
+            objectString = gson.toJson(contactList);
+            editor.putString("contactList",objectString);
+            editor.commit();
+            myAdapter.addItemsToList(c1);
+            myAdapter.notifyDataSetChanged();
+        }
+        else{
+            ConstraintLayout constraintLayout = (ConstraintLayout)findViewById(R.id.mainLayOut);
+            Snackbar snackbar = Snackbar.make(constraintLayout,"Contact is already exist !",Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
+
 
     }
-
+//check if contact exist
+    public boolean IsExist(Contact c1){
+        for (int i =0;i<contactList.size();i++){
+            if(c1.getNumber().equals(contactList.get(i).getNumber())){
+                return true;//exist
+            }
+        }
+        return false;
+    }
     //main
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -4,6 +4,7 @@ package com.cohav.sosbroadcast;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -13,9 +14,16 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -27,15 +35,40 @@ import java.util.List;
 
 public class activateSos extends AppCompatActivity {
     private List<Contact> contactList;
+    private SharedPreferences userData;
+    private SharedPreferences.Editor editor;
+    private Gson gson;
+    private TypeToken<ArrayList<Contact>> token =  new TypeToken<ArrayList<Contact>>(){};
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.toolbar_menu,menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        Intent intent = new Intent (this,MainActivity.class);
+        startActivity(intent);
+       // finish();
+        return true;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sos_send);
+        //toolbar
+        Toolbar toolbar = (Toolbar)findViewById(R.id.my_toolbar);
+        toolbar.setTitle("Activate SOS");
+        setSupportActionBar(toolbar);
 
         //start here
-        Intent i =getIntent();
-        contactList = (ArrayList<Contact>) i.getSerializableExtra("CONTACT_LIST");
+        userData = getPreferences(MODE_PRIVATE);
+        editor = userData.edit();
+        gson = new Gson();
+        this.contactList = gson.fromJson(userData.getString("contactList",""),token.getType());
         final ImageButton myBtn = (ImageButton) findViewById(R.id.ActivateBtn);
         myBtn.setOnClickListener(new View.OnClickListener() {
             @Override

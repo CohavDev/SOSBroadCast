@@ -5,17 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.cohav.sosbroadcast.MainActivity"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:id="@+id/mainLayOut">
 
 
     <include
         android:id="@+id/include"
         layout="@layout/content_main"
-        android:layout_width="319dp"
-        android:layout_height="453dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"></include>
+        android:layout_width="330dp"
+        android:layout_height="467dp"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="-7dp"></include>
 
     <ImageButton
         android:id="@+id/addContact"
@@ -39,14 +39,12 @@
 
     <Button
         android:id="@+id/deleteRef"
-        android:layout_width="77dp"
+        android:layout_width="88dp"
         android:layout_height="67dp"
         android:text="Delete"
         app:layout_constraintBottom_toTopOf="@+id/addContact"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="0dp"
-        tools:layout_editor_absoluteX="235dp" />
+        android:layout_marginEnd="8dp" />
 
 </android.support.constraint.ConstraintLayout>
