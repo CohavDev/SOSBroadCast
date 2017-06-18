@@ -1,21 +1,13 @@
 package com.cohav.sosbroadcast;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.audiofx.BassBoost;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
@@ -23,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -52,7 +43,7 @@ public class activateSos extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         Intent intent = new Intent (this,MainActivity.class);
         startActivity(intent);
-       // finish();
+        overridePendingTransition(R.animator.slide_in,R.animator.nothing);
         return true;
     }
     @Override
@@ -63,6 +54,7 @@ public class activateSos extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.my_toolbar);
         toolbar.setTitle("Activate SOS");
         setSupportActionBar(toolbar);
+
 
         //start here
         userData = getPreferences(MODE_PRIVATE);
