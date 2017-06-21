@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,12 +18,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,9 +50,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.fab);//CHANGED
 
         //start here
+        //get Extra
+        ShowSnackBar();
         //toolbar
         Toolbar toolbar = (Toolbar)findViewById(R.id.my_toolbar);
         toolbar.setTitle("Set Up");
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
             }
         });
 
-        userData = getPreferences(MODE_PRIVATE);
+        userData = PreferenceManager.getDefaultSharedPreferences(this);
         editor = userData.edit();
         gson = new Gson();
 
@@ -95,16 +94,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
 
         //put values --->  prepareContactData
 
-        prepareContactData();
     }
 
-    public void prepareContactData() {
-
-        if(contactList!=null){
-            myAdapter.notifyDataSetChanged();
-
-        }
-    }
 
     //show & add contact
     public void AddContactToList(String name, String number) {
@@ -120,10 +111,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
             editor.putString("contactList",objectString);
             editor.commit();
             myAdapter.addItemsToList(c1);
-            myAdapter.notifyDataSetChanged();
         }
         else{
-            //CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
             CoordinatorLayout crdLayOut = (CoordinatorLayout)findViewById(R.id.coordinatorLayout);
             Snackbar snackbar = Snackbar.make(crdLayOut,"Contact is already exist !",Snackbar.LENGTH_LONG);//ERROR HERE
             snackbar.show();
@@ -180,7 +169,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
                 RemoveFromListShared(position);
                 Toast.makeText(MainActivity.this,"Deleted",Toast.LENGTH_LONG).show();
                 myAdapter.RemoveItemsFromList(position);
-                myAdapter.notifyDataSetChanged();
                 return true;
             }
         });
@@ -203,6 +191,17 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
             editor.putString("contactList",objectStr);
             editor.commit();
 
+        }
+
+    }
+
+    //show snackbar
+    public void ShowSnackBar(){
+        String msg = getIntent().getStringExtra("noContact");
+        if(msg != null){
+            CoordinatorLayout coordinatorLayout = (CoordinatorLayout)findViewById(R.id.coordinatorLayout);
+            Snackbar snackbar = Snackbar.make(coordinatorLayout,msg,Snackbar.LENGTH_LONG);
+            snackbar.show();
         }
 
     }

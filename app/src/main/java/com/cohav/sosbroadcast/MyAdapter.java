@@ -82,12 +82,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     public void addItemsToList(Contact c1){
         this.contactList.add(c1);
+        notifyItemInserted(contactList.size());
     }
     public void Clear(){
         this.contactList=new ArrayList<>();
     }
     public void RemoveItemsFromList(int pos){
         this.contactList.remove(pos);
+        notifyItemRemoved(pos);
     }
 
 }

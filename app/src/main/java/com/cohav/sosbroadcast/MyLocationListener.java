@@ -15,11 +15,14 @@ public class MyLocationListener implements LocationListener {
     @Override
     public void onLocationChanged(Location location){
 
-        String longitude = "Longitude" + location.getLongitude();
-        String latitude = "Latidue" + location.getLatitude();
+        //String longitude = "Longitude" + location.getLongitude();
+        //String latitude = "Latidue" + location.getLatitude();
+        Double longitude = location.getLatitude();
+        Double latitude = location.getLatitude();
+
         /*------------Gets city name-------------*/
         String cityName = null;
-        //Geocoder gcd = new Geocoder(, Locale.getDefault());
+        //Geocoder gcd = new Geocoder(,Locale.getDefault())
     }
     @Override
     public void onProviderDisabled(String provider) {}

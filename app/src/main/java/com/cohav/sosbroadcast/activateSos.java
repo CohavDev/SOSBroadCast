@@ -1,10 +1,14 @@
 package com.cohav.sosbroadcast;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
@@ -17,15 +21,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class activateSos extends AppCompatActivity {
-    private List<Contact> contactList;
+    private List<Contact> contactList = null;
     private SharedPreferences userData;
     private SharedPreferences.Editor editor;
     private Gson gson;
@@ -47,6 +49,12 @@ public class activateSos extends AppCompatActivity {
         return true;
     }
     @Override
+    public void onResume(){
+        super.onResume();
+        GetRefList();//update the list
+
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sos_send);
@@ -57,10 +65,7 @@ public class activateSos extends AppCompatActivity {
 
 
         //start here
-        userData = getPreferences(MODE_PRIVATE);
-        editor = userData.edit();
-        gson = new Gson();
-        this.contactList = gson.fromJson(userData.getString("contactList",""),token.getType());
+        GetRefList();
         final ImageButton myBtn = (ImageButton) findViewById(R.id.ActivateBtn);
         myBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,11 +77,25 @@ public class activateSos extends AppCompatActivity {
                 }
                 else{
                     //show message that gps is enabled.
+                    GetLoc();
                     ConstraintLayout constraintLayout = (ConstraintLayout)findViewById(R.id.constraintLayout);
                     Snackbar snackbar = Snackbar.make(constraintLayout,"GPS is already enabled!",Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
-                ScanArrayList();
+                //scan and send
+                if(contactList == null||contactList.size()==0){
+
+                    //send to SetUp screen
+                    Intent intent = new Intent (activateSos.this,MainActivity.class);
+                    intent.putExtra("noContact","Please Add SOS Contacts First");
+                    startActivity(intent);
+                    overridePendingTransition(R.animator.slide_in,R.animator.nothing);
+
+                }
+                else{
+                    //ScanArrayList();
+                }
+
 
             }
         });
@@ -92,7 +111,7 @@ public class activateSos extends AppCompatActivity {
         SmsManager smsManager = SmsManager.getDefault();
         try {
             smsManager.sendTextMessage(phoneNumber,null,msgText,null,null);
-            Toast.makeText(activateSos.this, "SMS SENT", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(activateSos.this, "SMS SENT", Toast.LENGTH_SHORT).show();
         } catch(Exception e) {
             Toast.makeText(activateSos.this, "ERROR", Toast.LENGTH_SHORT).show();
 
@@ -103,5 +122,56 @@ public class activateSos extends AppCompatActivity {
         for (int i = 0; i<contactList.size();i++){
             SendSOSbroadCast(contactList.get(i).getNumber(),"Hey "+contactList.get(i).getName());
         }
+    }
+    public void GetRefList(){
+        //start here
+        userData = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = userData.edit();
+        gson = new Gson();
+        if(userData.contains("contactList")){
+            this.contactList =gson.fromJson(userData.getString("contactList",""),token.getType());
+        }
+    }
+    public void GetLoc(){
+
+        LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                Double longitude = location.getLatitude();
+                Double latitude = location.getLatitude();
+                ConstraintLayout constraintLayout = (ConstraintLayout)findViewById(R.id.constraintLayout);
+                Snackbar snackbar = Snackbar.make(constraintLayout,""+latitude+", "+longitude,Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
+        LocationManager mng = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        mng.requestLocationUpdates(LocationManager.GPS_PROVIDER,10,0,locationListener);
+       Location location= mng.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if(location!=null){
+            Double longitude = location.getLatitude();
+            Double latitude = location.getLatitude();
+            ConstraintLayout constraintLayout = (ConstraintLayout)findViewById(R.id.constraintLayout);
+            Snackbar snackbar = Snackbar.make(constraintLayout,""+latitude+", "+longitude,Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
+
+
+
+
     }
 }
