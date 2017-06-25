@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
@@ -25,6 +26,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.List;
+import android.os.Handler;
 
 public class activateSos extends AppCompatActivity {
     private List<Contact> contactList = null;
@@ -32,6 +34,9 @@ public class activateSos extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private Gson gson;
     private TypeToken<ArrayList<Contact>> token =  new TypeToken<ArrayList<Contact>>(){};
+    private LocationManager mng;
+    private LocationListener locationListener;
+    private String msg;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -76,16 +81,14 @@ public class activateSos extends AppCompatActivity {
                     startActivity(gpsOptionsIntent);
                 }
                 else{
-                    //show message that gps is enabled.
+                    //gps is enabled.
+
                     GetLoc();
-                    ConstraintLayout constraintLayout = (ConstraintLayout)findViewById(R.id.constraintLayout);
-                    Snackbar snackbar = Snackbar.make(constraintLayout,"GPS is already enabled!",Snackbar.LENGTH_LONG);
-                    snackbar.show();
                 }
                 //scan and send
                 if(contactList == null||contactList.size()==0){
 
-                    //send to SetUp screen
+                    //send message to SetUp screen(Main activity).
                     Intent intent = new Intent (activateSos.this,MainActivity.class);
                     intent.putExtra("noContact","Please Add SOS Contacts First");
                     startActivity(intent);
@@ -93,17 +96,34 @@ public class activateSos extends AppCompatActivity {
 
                 }
                 else{
-                    //ScanArrayList();
+                    //send broadcast to every contact.
+                    if(msg!=null){
+                        ScanArrayList();
+                        //show msg
+                    }
+                    //msg == null
+                    else{
+                        //could'nt get location before trying to send sms.
+                        //delaying sending the sms.
+                        final Handler handler = new Handler();
+                        final Runnable runnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                //action to do
+                                if(msg==null){
+                                    handler.postDelayed(this,1000);
+                                }
+                            }
+                        };
+                        handler.postDelayed(runnable,1000);
+                        ScanArrayList();
+                    }
+
                 }
 
 
             }
         });
-
-
-      //  LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-
-       // locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,5000,10,locationListener);
 
     }
 
@@ -111,17 +131,19 @@ public class activateSos extends AppCompatActivity {
         SmsManager smsManager = SmsManager.getDefault();
         try {
             smsManager.sendTextMessage(phoneNumber,null,msgText,null,null);
-            //Toast.makeText(activateSos.this, "SMS SENT", Toast.LENGTH_SHORT).show();
         } catch(Exception e) {
-            Toast.makeText(activateSos.this, "ERROR", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activateSos.this, "ERROR while sending sms", Toast.LENGTH_SHORT).show();
 
         }
 
     }
     public void ScanArrayList(){
         for (int i = 0; i<contactList.size();i++){
-            SendSOSbroadCast(contactList.get(i).getNumber(),"Hey "+contactList.get(i).getName());
+            SendSOSbroadCast(contactList.get(i).getNumber(),contactList.get(i).getName()+", אני צריך עזרה"+"\n"+msg+"\n זוהי בדיקה בלבד ולא קריאת עזרה אמיתית.");
         }
+        ConstraintLayout constraintLayout = (ConstraintLayout)findViewById(R.id.constraintLayout);
+        Snackbar snackbar = Snackbar.make(constraintLayout,"ההודעה נשלחה בהצלחה !",Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
     public void GetRefList(){
         //start here
@@ -134,44 +156,46 @@ public class activateSos extends AppCompatActivity {
     }
     public void GetLoc(){
 
-        LocationListener locationListener = new LocationListener() {
+         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                Double longitude = location.getLatitude();
-                Double latitude = location.getLatitude();
-                ConstraintLayout constraintLayout = (ConstraintLayout)findViewById(R.id.constraintLayout);
-                Snackbar snackbar = Snackbar.make(constraintLayout,""+latitude+", "+longitude,Snackbar.LENGTH_LONG);
-                snackbar.show();
+
+                msg="http://maps.google.com/?q=";
+                msg+=""+location.getLatitude()+",";
+                msg+=""+location.getLongitude()+"";
+                Toast.makeText(activateSos.this,location.getLatitude()+","+location.getLongitude(),Toast.LENGTH_LONG).show();
+
             }
 
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
 
             }
-
             @Override
             public void onProviderEnabled(String provider) {
 
             }
-
             @Override
             public void onProviderDisabled(String provider) {
 
             }
         };
-        LocationManager mng = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        mng.requestLocationUpdates(LocationManager.GPS_PROVIDER,10,0,locationListener);
-       Location location= mng.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if(location!=null){
-            Double longitude = location.getLatitude();
-            Double latitude = location.getLatitude();
-            ConstraintLayout constraintLayout = (ConstraintLayout)findViewById(R.id.constraintLayout);
-            Snackbar snackbar = Snackbar.make(constraintLayout,""+latitude+", "+longitude,Snackbar.LENGTH_LONG);
-            snackbar.show();
+        mng = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        try {
+            mng.requestLocationUpdates(LocationManager.GPS_PROVIDER,10000, 0, locationListener);
+
         }
-
-
-
+        catch (SecurityException e){
+            Toast.makeText(activateSos.this,"Security exception",Toast.LENGTH_LONG).show();
+        }
+    }
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        if(mng !=null){
+            //remove location updates.
+            mng.removeUpdates(locationListener);
+        }
 
     }
 }

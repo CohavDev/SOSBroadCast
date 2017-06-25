@@ -1,10 +1,10 @@
 [
     {
-        "merged": "C:\\Users\\Shaul\\AndroidStudioProjects\\SOSBroadCast\\app\\build\\intermediates\\res\\merged\\debug\\color-v11\\abc_background_cache_hint_selector_material_light.xml",
-        "source": "C:\\Users\\Shaul\\.android\\build-cache\\8899e9a286a507fb1f2728f02963c400982c1176\\output\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
+        "merged": "/home/shaul/StudioProjects/SOSBroadCast/app/build/intermediates/res/merged/debug/color-v11/abc_background_cache_hint_selector_material_dark.xml",
+        "source": "/home/shaul/.android/build-cache/050ded52a532be0c4cd7a6b8fee99d4c5cf7cd28/output/res/color-v11/abc_background_cache_hint_selector_material_dark.xml"
     },
     {
-        "merged": "C:\\Users\\Shaul\\AndroidStudioProjects\\SOSBroadCast\\app\\build\\intermediates\\res\\merged\\debug\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
-        "source": "C:\\Users\\Shaul\\.android\\build-cache\\8899e9a286a507fb1f2728f02963c400982c1176\\output\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
+        "merged": "/home/shaul/StudioProjects/SOSBroadCast/app/build/intermediates/res/merged/debug/color-v11/abc_background_cache_hint_selector_material_light.xml",
+        "source": "/home/shaul/.android/build-cache/050ded52a532be0c4cd7a6b8fee99d4c5cf7cd28/output/res/color-v11/abc_background_cache_hint_selector_material_light.xml"
     }
 ]

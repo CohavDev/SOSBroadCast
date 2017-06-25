@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "C:\\Users\\Shaul\\AndroidStudioProjects\\SOSBroadCast\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ldltr-v21\\values-ldltr-v21.xml",
+        "outputFile": "/home/shaul/StudioProjects/SOSBroadCast/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ldltr-v21/values-ldltr-v21.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 163
                 },
                 "from": {
-                    "file": "C:\\Users\\Shaul\\.android\\build-cache\\8899e9a286a507fb1f2728f02963c400982c1176\\output\\res\\values-ldltr-v21\\values-ldltr-v21.xml",
+                    "file": "/home/shaul/.android/build-cache/050ded52a532be0c4cd7a6b8fee99d4c5cf7cd28/output/res/values-ldltr-v21/values-ldltr-v21.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,

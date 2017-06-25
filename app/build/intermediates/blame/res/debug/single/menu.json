@@ -1,10 +1,10 @@
 [
     {
-        "merged": "C:\\Users\\Shaul\\AndroidStudioProjects\\SOSBroadCast\\app\\build\\intermediates\\res\\merged\\debug\\menu\\popup.xml",
-        "source": "C:\\Users\\Shaul\\AndroidStudioProjects\\SOSBroadCast\\app\\src\\main\\res\\menu\\popup.xml"
+        "merged": "/home/shaul/StudioProjects/SOSBroadCast/app/build/intermediates/res/merged/debug/menu/toolbar_menu.xml",
+        "source": "/home/shaul/StudioProjects/SOSBroadCast/app/src/main/res/menu/toolbar_menu.xml"
     },
     {
-        "merged": "C:\\Users\\Shaul\\AndroidStudioProjects\\SOSBroadCast\\app\\build\\intermediates\\res\\merged\\debug\\menu\\toolbar_menu.xml",
-        "source": "C:\\Users\\Shaul\\AndroidStudioProjects\\SOSBroadCast\\app\\src\\main\\res\\menu\\toolbar_menu.xml"
+        "merged": "/home/shaul/StudioProjects/SOSBroadCast/app/build/intermediates/res/merged/debug/menu/popup.xml",
+        "source": "/home/shaul/StudioProjects/SOSBroadCast/app/src/main/res/menu/popup.xml"
     }
 ]

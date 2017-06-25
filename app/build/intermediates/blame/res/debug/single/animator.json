@@ -1,14 +1,14 @@
 [
     {
-        "merged": "C:\\Users\\Shaul\\AndroidStudioProjects\\SOSBroadCast\\app\\build\\intermediates\\res\\merged\\debug\\animator\\nothing.xml",
-        "source": "C:\\Users\\Shaul\\AndroidStudioProjects\\SOSBroadCast\\app\\src\\main\\res\\animator\\nothing.xml"
+        "merged": "/home/shaul/StudioProjects/SOSBroadCast/app/build/intermediates/res/merged/debug/animator/slide_out.xml",
+        "source": "/home/shaul/StudioProjects/SOSBroadCast/app/src/main/res/animator/slide_out.xml"
     },
     {
-        "merged": "C:\\Users\\Shaul\\AndroidStudioProjects\\SOSBroadCast\\app\\build\\intermediates\\res\\merged\\debug\\animator\\slide_in.xml",
-        "source": "C:\\Users\\Shaul\\AndroidStudioProjects\\SOSBroadCast\\app\\src\\main\\res\\animator\\slide_in.xml"
+        "merged": "/home/shaul/StudioProjects/SOSBroadCast/app/build/intermediates/res/merged/debug/animator/slide_in.xml",
+        "source": "/home/shaul/StudioProjects/SOSBroadCast/app/src/main/res/animator/slide_in.xml"
     },
     {
-        "merged": "C:\\Users\\Shaul\\AndroidStudioProjects\\SOSBroadCast\\app\\build\\intermediates\\res\\merged\\debug\\animator\\slide_out.xml",
-        "source": "C:\\Users\\Shaul\\AndroidStudioProjects\\SOSBroadCast\\app\\src\\main\\res\\animator\\slide_out.xml"
+        "merged": "/home/shaul/StudioProjects/SOSBroadCast/app/build/intermediates/res/merged/debug/animator/nothing.xml",
+        "source": "/home/shaul/StudioProjects/SOSBroadCast/app/src/main/res/animator/nothing.xml"
     }
 ]

@@ -1,4 +1,7 @@
-#Mon Jun 19 23:37:57 IDT 2017
-base.0=C\:\\Users\\Shaul\\AndroidStudioProjects\\SOSBroadCast\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\1f\\main
+#Fri Jun 23 14:11:17 IDT 2017
+base.0=/home/shaul/StudioProjects/SOSBroadCast/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_d1ddcef91ec9299154608f0dceedd7b3eb5ed506
+renamed.1=classes2.dex
 renamed.0=classes.dex
-file.0=C\:\\Users\\Shaul\\AndroidStudioProjects\\SOSBroadCast\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\1f\\main\\classes.dex
+file.1=/home/shaul/StudioProjects/SOSBroadCast/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_f3fd8332e00e4e01ed630586a9ed82d96ac474ec/classes.dex
+base.1=/home/shaul/StudioProjects/SOSBroadCast/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_f3fd8332e00e4e01ed630586a9ed82d96ac474ec
+file.0=/home/shaul/StudioProjects/SOSBroadCast/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_d1ddcef91ec9299154608f0dceedd7b3eb5ed506/classes.dex
